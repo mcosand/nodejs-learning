@@ -1,22 +1,26 @@
 
 var async = require('async')
 
-module.exports = function (app, passport, auth) {
+module.exports = function (express, app, passport, auth) {
 
   // user routes
   var users = require('../app/controllers/users')
-  app.get('/signin', users.signin)
-  app.get('/signup', users.signup)
-  app.get('/signout', users.signout)
-  app.post('/users', users.create)
-  app.post('/users/session', passport.authenticate('local', {failureRedirect: '/signin', failureFlash: 'Invalid email or password.'}), users.session)
-  app.get('/users/me', users.me)
-  app.get('/users/:userId', users.show)
+  var r = express.Router();
   
-  app.param('userId', users.user)
+  r.get('/signin', users.signin)
+  r.get('/signup', users.signup)
+  r.get('/signout', users.signout)
+  r.post('/users', users.create)
+  r.post('/users/session', passport.authenticate('local', {failureRedirect: '/signin', failureFlash: 'Invalid email or password.'}), users.session)
+  r.get('/users/me', users.me)
+  r.get('/users/:userId', users.show)
   
+  r.param('userId', users.user)
+ 
   // home route
   var index = require('../app/controllers/index')
-  app.get('/', index.render)
-
+  r.get('/', index.render)
+ 
+  app.use('/', r);
+ 
 }

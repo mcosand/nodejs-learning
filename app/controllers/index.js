@@ -2,8 +2,7 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , async = require('async')
+var async = require('async')
   , _ = require('underscore')
 
 

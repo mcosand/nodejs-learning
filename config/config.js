@@ -14,7 +14,7 @@ var path = require('path')
 
 module.exports = {
   development: {
-    db: 'mongodb://localhost/ngff-dev',
+    db: 'http://localhost:5984',
     root: rootPath,
     notifier: notifier,
     app: {
@@ -22,7 +22,7 @@ module.exports = {
     }
   },
   test: {
-    db: 'mongodb://localhost/ngff-test',
+    db: 'http://localhost:5984',
     root: rootPath,
     notifier: notifier,
     app: {
@@ -30,7 +30,7 @@ module.exports = {
     }
   },
   production: {
-    db: 'mongodb://localhost/ngff',
+    db: 'https://localhost:6984',
     root: rootPath,
     notifier: notifier,
     app: {

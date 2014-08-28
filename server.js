@@ -23,10 +23,10 @@ var express = require('express')
 var env = process.env.NODE_ENV || 'development'
   , config = require('./config/config')[env]
   , auth = require('./config/middlewares/authorization')
-  , mongoose = require('mongoose')
+  , nano = require('nano')
 
 // Bootstrap db connection
-var db = mongoose.connect(config.db)
+var db = nano(config.db)
 
 // Bootstrap models
 var models_path = __dirname + '/app/models'
@@ -40,18 +40,18 @@ require('./config/passport')(passport, config)
 var app = express()
 
 // express settings
-require('./config/express')(app, config, passport)
+require('./config/express')(app, config, passport, function() { 
 
 // Bootstrap routes
-require('./config/routes')(app, passport, auth)
-
+require('./config/routes')(express, app, passport, auth)
+});
 // Start the app by listening on <port>
 var port = process.env.PORT || 3000
 app.listen(port)
 console.log('Express app started on port '+port)
 
 //Initializing logger 
-logger.init(app, passport, mongoose)
+//logger.init(app, passport, mongoose)
 
 // expose app
 exports = module.exports = app

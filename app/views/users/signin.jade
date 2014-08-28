@@ -4,8 +4,8 @@ block auth
   form(action="/users/session", method="post")
     p.error= message
     .control-group
-      label(for='email') Email
-      input#email(type='text', name="email", placeholder='Email')
+      label(for='username') Username
+      input#email(type='text', name="username", placeholder='Username')
 
     .control-group
       label(for='password') Password

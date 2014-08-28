@@ -2,11 +2,7 @@
 /**
  * Module dependencies.
  */
-
-var mongoose = require('mongoose')
-  , User = mongoose.model('User')
-
-//exports.signin = function (req, res) {}
+var User = require('../models/user.js')
 
 /**
  * Auth callback
@@ -59,7 +55,7 @@ exports.session = function (req, res) {
  * Create user
  */
 
-exports.create = function (req, res) {
+exports.create = function (req, res, next) {
   var user = new User(req.body)
   user.provider = 'local'
   user.save(function (err) {
@@ -93,13 +89,13 @@ exports.me = function (req, res) {
  * Find user by id
  */
 
-exports.user = function (req, res, next, id) {
+exports.user = function (req, res, next, username) {
   User
-    .findOne({ _id : id })
-    .exec(function (err, user) {
+    .byUsername(username, 
+    function (err, user) {
       if (err) return next(err)
       if (!user) return next(new Error('Failed to load User ' + id))
       req.profile = user
       next()
-    })
+    });
 }
